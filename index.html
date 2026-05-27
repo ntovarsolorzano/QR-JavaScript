@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DoveQR — Beautiful QR Codes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <div class="brand">
+          <svg class="brand-icon" width="34" height="34" viewBox="0 0 34 34" fill="none">
+            <circle cx="17" cy="17" r="17" fill="rgba(255,255,255,0.15)"/>
+            <path d="M26 9C24 7 20 7 18 8C14 9 11 12 10 16C9 13 10 10 13 8C9 9 6 12 6 17C6 21 9 24 13 25C11 23 11 20 13 19C14 22 17 24 21 23C19 21 19 18 21 17C23 16 26 17 27 15C25 15 23 14 22 13C23 12 25 11 26 9Z" fill="white"/>
+          </svg>
+          <span class="brand-name">DoveQR</span>
+        </div>
+        <p class="brand-tagline">Design beautiful QR codes</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <div class="layout">
+
+        <!-- Controls -->
+        <aside class="controls-panel">
+
+          <div class="control-card">
+            <label class="section-title" for="qr-url">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+              </svg>
+              URL or Text
+            </label>
+            <div class="url-field">
+              <input type="text" id="qr-url" class="url-input"
+                     placeholder="https://example.com"
+                     value="https://github.com"
+                     autocomplete="off" spellcheck="false">
+              <button class="url-clear" id="url-clear" aria-label="Clear input">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                  <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="control-card">
+            <span class="section-title">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/>
+                <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/>
+                <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>
+                <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/>
+                <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+              </svg>
+              Colors
+            </span>
+            <div class="colors-row">
+              <div class="color-item">
+                <span class="color-label">Foreground</span>
+                <label class="color-swatch-btn" for="fg-color">
+                  <input type="color" id="fg-color" value="#000000">
+                  <span class="color-hex" id="fg-hex">#000000</span>
+                </label>
+              </div>
+              <div class="color-divider"></div>
+              <div class="color-item">
+                <span class="color-label">Background</span>
+                <label class="color-swatch-btn" for="bg-color">
+                  <input type="color" id="bg-color" value="#ffffff">
+                  <span class="color-hex" id="bg-hex">#ffffff</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="control-card">
+            <span class="section-title">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7" rx="1"/>
+                <rect x="14" y="3" width="7" height="7" rx="1"/>
+                <rect x="14" y="14" width="7" height="7" rx="1"/>
+                <rect x="3" y="14" width="7" height="7" rx="1"/>
+              </svg>
+              Dot Shape
+            </span>
+            <div class="shape-grid" id="shape-grid"></div>
+          </div>
+
+          <div class="control-card">
+            <span class="section-title">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <circle cx="12" cy="12" r="4"/>
+                <line x1="4.93" y1="4.93" x2="9.17" y2="9.17"/>
+                <line x1="14.83" y1="14.83" x2="19.07" y2="19.07"/>
+                <line x1="14.83" y1="9.17" x2="19.07" y2="4.93"/>
+                <line x1="4.93" y1="19.07" x2="9.17" y2="14.83"/>
+              </svg>
+              Center Icon
+            </span>
+            <div class="icon-grid" id="icon-grid"></div>
+          </div>
+
+        </aside>
+
+        <!-- Preview -->
+        <section class="preview-panel">
+
+          <div class="qr-card">
+            <div class="qr-canvas-wrap" id="qr-container"></div>
+            <div class="qr-actions">
+              <button class="btn btn-primary" id="btn-png">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                Download PNG
+              </button>
+              <button class="btn btn-ghost" id="btn-svg">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                SVG
+              </button>
+            </div>
+          </div>
+
+          <!-- History — backed by localStorage now, Firebase-ready -->
+          <div class="history-card">
+            <div class="history-header">
+              <h3 class="section-title" style="margin-bottom:0">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="12 8 12 12 14 14"/>
+                  <path d="M3.05 11a9 9 0 1 0 .5-4.5"/>
+                  <polyline points="3 7 3 11 7 11"/>
+                </svg>
+                Recent
+              </h3>
+              <button class="btn-text" id="btn-clear-history">Clear all</button>
+            </div>
+            <div class="history-list" id="history-list">
+              <p class="history-empty">
+                Downloaded QR codes will appear here.
+                <br><small>Cloud sync via Firebase — coming soon</small>
+              </p>
+            </div>
+          </div>
+
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>DoveQR &copy; 2025 &mdash; Create, customize, and share beautiful QR codes</p>
+    </div>
+  </footer>
+
+  <!-- QR Code Styling library -->
+  <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.6.0-rc.1/lib/qr-code-styling.js"></script>
+
+  <!--
+    Firebase SDK (uncomment when configured):
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  -->
+
+  <script src="firebase/config.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
