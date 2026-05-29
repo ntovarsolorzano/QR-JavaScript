@@ -90,6 +90,12 @@
     });
   }
 
+  /* ── Coloured icon data URL ─────────────────────────────── */
+  function coloredIconUrl(icon, color) {
+    var colored = icon.svg.replace(/fill="#000"/g, 'fill="' + color + '"');
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(colored);
+  }
+
   /* ── Domain validation ──────────────────────────────────── */
   function parseHostname(url) {
     try { return new URL(url).hostname.replace(/^www\./, '').toLowerCase(); }
@@ -157,7 +163,7 @@
       height: size,
       type:   'canvas',
       data:   resolved.url,
-      image:  hasIcon ? icon.dataUrl : undefined,
+      image:  hasIcon ? coloredIconUrl(icon, state.fgColor) : undefined,
       margin: 12,
       qrOptions: {
         /* High error correction when a logo covers part of the QR code */
