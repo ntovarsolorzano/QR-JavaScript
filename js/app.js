@@ -90,19 +90,73 @@
     });
   }
 
+  /* ── Domain validation ──────────────────────────────────── */
+  function parseHostname(url) {
+    try { return new URL(url).hostname.replace(/^www\./, '').toLowerCase(); }
+    catch (_) {
+      /* Try adding a scheme so bare domains like "github.com" still parse */
+      try { return new URL('https://' + url).hostname.replace(/^www\./, '').toLowerCase(); }
+      catch (_) { return ''; }
+    }
+  }
+
+  function domainMatches(host, allowed) {
+    return allowed.some(function (d) {
+      return host === d || host.endsWith('.' + d);
+    });
+  }
+
+  /* Returns the URL to encode in the QR and whether it matched the icon's domain. */
+  function resolveQRData() {
+    if (state.iconId === 'none') {
+      return { url: state.url || 'https://doveqr.app', matched: true };
+    }
+    var icon = ICONS.find(function (i) { return i.id === state.iconId; });
+    if (!icon || !icon.domains) {
+      return { url: state.url || 'https://doveqr.app', matched: true };
+    }
+    var host = parseHostname(state.url);
+    if (host && domainMatches(host, icon.domains)) {
+      return { url: state.url, matched: true };
+    }
+    return { url: icon.genericUrl, matched: false };
+  }
+
+  function updateDomainWarning(matched, icon) {
+    var el = document.getElementById('domain-warn');
+    if (matched || !icon || icon.id === 'none') {
+      el.className = 'domain-warn';
+      el.innerHTML = '';
+      return;
+    }
+    el.className = 'domain-warn visible';
+    el.innerHTML = [
+      '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"',
+      ' stroke-width="2" stroke-linecap="round" stroke-linejoin="round">',
+      '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>',
+      '<line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+      '</svg>',
+      'URL doesn\'t match ' + icon.name + '. Showing ',
+      '<strong>' + icon.genericUrl + '</strong> instead.',
+    ].join('');
+  }
+
   /* ── QR options builder ─────────────────────────────────── */
   function buildOptions(size) {
     size = size || 300;
+    var resolved = resolveQRData();
     var icon   = ICONS.find(function (i) { return i.id === state.iconId; });
     var shape  = SHAPES.find(function (s) { return s.id === state.dotStyle; });
     var corner = CORNER_MAP[state.dotStyle] || CORNER_MAP.square;
     var hasIcon = icon && icon.id !== 'none';
 
+    updateDomainWarning(resolved.matched, icon);
+
     return {
       width:  size,
       height: size,
       type:   'canvas',
-      data:   state.url || 'https://doveqr.app',
+      data:   resolved.url,
       image:  hasIcon ? icon.dataUrl : undefined,
       margin: 12,
       qrOptions: {
